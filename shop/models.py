@@ -36,7 +36,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True)  # optional field
     description = models.TextField(blank=True)  # optional field
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    availability = models.BooleanField(default=True)
+    available = models.BooleanField(default=True)
     # date is saved the first time a product is created in the database
     created = models.DateTimeField(auto_now_add=True)
     # date field changes whenever the 'save' button is pressed
