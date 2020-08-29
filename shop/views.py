@@ -6,7 +6,7 @@ def product_list(request, category_slug=None):
     """
     retrieve a list(multiple) of products. Products is filtered based on availability or category_slug
     :param request:  HttpRequest contains metadata about the request
-    :param category_slug: optional parameter
+    :param category_slug: optional parameter for filtering products according to a given category.
     :return: filtered products if available or from a category
     """
     category = None
