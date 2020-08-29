@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -21,6 +22,11 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    # get_absolute_url() is the convention to retrieve the URL for a given object
+    # link to a specific category i.e product_list
+    def get_absolute_url(self):
+        return reverse('shop:product_list_by_category', args=[self.slug])
+
 
 class Product(models.Model):
     """
@@ -33,7 +39,8 @@ class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     name = models.CharField(max_length=150, db_index=True)
     slug = models.SlugField(max_length=150, db_index=True)  # to build  URLs.
-    image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True)  # optional field
+    # location of photo in media root 'products/%Y/%m/%d/'
+    image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True)  # optional field,
     description = models.TextField(blank=True)  # optional field
     price = models.DecimalField(max_digits=10, decimal_places=2)
     available = models.BooleanField(default=True)
@@ -48,3 +55,8 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    # get_absolute_url() is the convention to retrieve the URL for a given object
+    def get_absolute_url(self):
+        # format: reverse(viewname, urlconf, args)
+        return reverse('shop:product_detail', args=[self.id, self.slug])
