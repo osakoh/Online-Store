@@ -126,7 +126,7 @@ STATIC_URL = '/static/'
 # ]
 
 # located outside the base directory to where the venv is
-STATIC_ROOT = os.path.join(BASE_DIR, "static_dev")
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 # LOGIN_REDIRECT_URL = 'post_list'
 
@@ -135,5 +135,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static_dev")
 # LOGIN_URL = '/login/'
 
 # media settings
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # creates a 'media' folder in the root dir (Housing) directory
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')  # creates a 'media' folder in the root dir (Housing) directory

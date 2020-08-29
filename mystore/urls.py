@@ -8,4 +8,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('shop.urls', namespace='shop')),  # namespace must be the same as app_name
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # required for media files(pictures) to show on the website
