@@ -1,0 +1,41 @@
+-Django Sessions-
+*The current session can be accessed using 'request.session', treating it like a Python
+dictionary to store and retrieve session data. The session dictionary accepts any
+Python object by default that can be serialized to JSON.
+
+
+*SESSION_COOKIE_AGE: The duration of session cookies in seconds.
+The default value is 1209600 (two weeks).
+
+*SESSION_COOKIE_DOMAIN: The domain used for session cookies. Set this to
+mydomain.com to enable cross-domain cookies or use None for a standard
+domain cookie.
+
+*SESSION_COOKIE_SECURE: A Boolean indicating that the cookie should only
+be sent if the connection is an HTTPS connection.
+
+*SESSION_EXPIRE_AT_BROWSER_CLOSE: A Boolean indicating that the session
+has to expire when the browser is closed.
+
+*SESSION_SAVE_EVERY_REQUEST: A Boolean that, if True, will save the session
+to the database on every request. The session expiration is also updated each
+time it's saved.
+
+
+*When users log in to the site, their anonymous session is lost and
+a new session is created for authenticated users. If you store items
+in an anonymous session that you need to keep after the user logs
+in, you will have to copy the old session data into the new session.
+You can do this by retrieving the session data before you log in
+the user using the login() function of the Django authentication
+system and storing it in the session after that.
+
+-Session expiration-
+*You can choose to use browser-length sessions or persistent sessions using
+the SESSION_EXPIRE_AT_BROWSER_CLOSE setting. This is set to False by default,
+forcing the session duration to the value stored in the SESSION_COOKIE_AGE setting.
+If you set SESSION_EXPIRE_AT_BROWSER_CLOSE to True, the session will expire
+when the user closes the browser, and the SESSION_COOKIE_AGE setting will not
+have any effect.
+You can use the set_expiry() method of request.session to overwrite the
+duration of the current session.

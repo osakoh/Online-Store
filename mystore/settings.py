@@ -43,7 +43,12 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
+    # makes current session available in the request object.
+    # You can access the current session using request.session, it acts like a Python
+    # dictionary to store and retrieve session data.
     'django.contrib.sessions.middleware.SessionMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -137,3 +142,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 # media settings
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')  # creates a 'media' folder in the root dir (Housing) directory
+
+
+# cart session key
+CART_SESSION_ID = 'cart'
