@@ -11,12 +11,13 @@ Each item in the cart contains the following:
 
 
 class Cart(object):
+
     def __init__(self, request):
         """
         Cart constructor: Initialise the cart with a request object
         :param request:
         """
-        self.session = request.session  # store the current session
+        self.session = request.session  # assign the current session to self.session
 
         cart = self.session.get(settings.CART_SESSION_ID)  # Retrieve the cart from the  current session
 
@@ -59,3 +60,44 @@ class Cart(object):
         if product_id in self.cart:  # checks if the product_id is in the cart and removes it
             del self.session['product_id']
             self.save()  # updates the modified cart
+
+    def __iter__(self):
+        """
+        iterates over the items in the cart and get the products from the database
+        """
+        product_ids = self.cart.keys()  # gets the keys from the cart dictionary and assign it to product_ids
+        products = Product.objects.filter(id__in=product_ids)  # use the product_ids to filter the Products from the DB
+
+        cart = self.cart.copy()  # makes a copy of the cart dictionary
+
+        for product in products:
+            # from the cart dictionary, use the 'product.id' key to assess the 'product'
+            # retrieve the product from the DB and add it to the cart dictionary
+            cart[str(product.id)]['product'] = product
+
+        for item in cart.values():
+            item['price'] = Decimal(item['price'])  # cast the price to a decimal type
+            item['total_price'] = item['price'] * item['quantity']  # calculate the price of each item in the cart
+            yield item  # returns a generator
+
+    # tuple(i for i in (1, 2, 3))
+    def __len__(self):
+        """
+        :return: count all items in the cart/the total number of items stored in the cart
+        """
+        return sum(item['quantity'] for item in self.cart.values())
+
+    # cart dictionary format- self.cart[product_id] = {'quantity': 0, 'price': str(product.price)}
+
+    def get_total_price(self):
+        """
+        :return: the total cost of items in the cart
+        """
+        return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+
+    def clear(self):
+        """
+        clears the cart session
+        """
+        del self.session[settings.CART_SESSION_ID]  # deletes the cart session
+        self.save()  # updates the cart
