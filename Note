@@ -1,7 +1,13 @@
 -Django Sessions-
 *The current session can be accessed using 'request.session', treating it like a Python
 dictionary to store and retrieve session data. The session dictionary accepts any
-Python object by default that can be serialized to JSON.
+Python object by default that can be serialized to JSON.You can set a variable in
+the session like this:
+request.session['foo'] = 'bar'
+Retrieve a session key as follows:
+request.session.get('foo')
+Delete a key you previously stored in the session as follows:
+del request.session['foo']
 
 
 *SESSION_COOKIE_AGE: The duration of session cookies in seconds.
