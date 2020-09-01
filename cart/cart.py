@@ -46,3 +46,16 @@ class Cart(object):
             self.cart[product_id]['quantity'] += quantity  # add the new quantity to the existing quantity
         self.save()
 
+    def save(self):
+        self.session.modified = True  # current session is marked as 'modified' so it gets saved
+
+    def remove(self, product):
+        """
+        :param product: selects the product to be removed from the cart
+        :return:
+        """
+        product_id = str(product.id)  # same reason as casting product.id to str in add()
+
+        if product_id in self.cart:  # checks if the product_id is in the cart and removes it
+            del self.session['product_id']
+            self.save()  # updates the modified cart
