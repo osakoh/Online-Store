@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('cart/', include('cart.urls', namespace='cart')),  # namespace must be the same as app_name
+    path('cart/', include('cart.urls', namespace='cart')),  # included before the shop urls since it's more restrictive
     path('', include('shop.urls', namespace='shop')),  # namespace must be the same as app_name
 ]
 if settings.DEBUG:
