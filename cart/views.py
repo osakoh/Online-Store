@@ -5,7 +5,7 @@ from .cart import Cart
 from .forms import CartAddProductForm
 
 
-@require_POST  # Decorator to require that a view only accepts the POST method.
+# @require_POST  # Decorator to require that a view only accepts the POST method.
 def cart_add(request, product_id):
     """
     :param request:
@@ -48,3 +48,4 @@ def cart_detail(request):
     cart = Cart(request)
     context = {'cart': cart}
     return render(request, 'cart/detail.html', context)
+
