@@ -16,10 +16,11 @@ class Cart(object):
         """
         Cart constructor: Initialise the cart with a request object
         :param request:
+        :returns: a cart session dictionary
         """
         self.session = request.session  # assign the current session to self.session
 
-        cart = self.session.get(settings.CART_SESSION_ID)  # Retrieve the cart from the  current session
+        cart = self.session.get(settings.CART_SESSION_ID)  # Retrieve the cart from the current session
 
         if not cart:  # if no cart is present in the current session
             # create an empty cart in the session by setting it to an empty dictionary
@@ -36,13 +37,13 @@ class Cart(object):
         or whether the new quantity is to be added to the existing quantity(False). The default value is False
         :return:
         """
-        product_id = str(product.id)  # converts the product ID(int) to string because Django uses JSON
+        product_id = str(product.id)  # converts the product.id(int) to string because Django uses JSON
         # to serialize session data, and JSON only allows string key names
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 0,
                                      'price': str(product.price)}  # price is cast to string, same reason as product_id
         if override_quantity:
-            self.cart[product_id]['quantity'] = quantity  # override the quantity with the given(new) quantity
+            self.cart[product_id]['quantity'] = quantity  # replace the current quantity with the given(new) quantity
         else:
             self.cart[product_id]['quantity'] += quantity  # add the new quantity to the existing quantity
         self.save()
@@ -66,7 +67,7 @@ class Cart(object):
         iterates over the items in the cart and get the products from the database
         """
         product_ids = self.cart.keys()  # gets the keys from the cart dictionary and assign it to product_ids
-        products = Product.objects.filter(id__in=product_ids)  # use the product_ids to filter the Products from the DB
+        products = Product.objects.filter(id__in=product_ids)  # use the product_ids to filter Products from the DB
 
         cart = self.cart.copy()  # makes a copy of the cart dictionary
 
@@ -76,7 +77,7 @@ class Cart(object):
             cart[str(product.id)]['product'] = product
 
         for item in cart.values():
-            item['price'] = Decimal(item['price'])  # cast the price to a decimal type
+            item['price'] = Decimal(item['price'])  # cast the unit price to a decimal type
             item['total_price'] = item['price'] * item['quantity']  # calculate the price of each item in the cart
             yield item  # returns a generator
 
