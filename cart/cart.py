@@ -25,3 +25,24 @@ class Cart(object):
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
 
+    def add(self, product, quantity=1, override_quantity=False):
+        """
+                                Key:values
+        cart dictionary[product IDs]: {'quantity', 'price'}
+        :param product: used to add/update the cart. Gets the ID for each product
+        :param quantity: default quantity for a product in the cart =1
+        :param override_quantity: Boolean to check if the default quantity is to be overridden with a new quantity(True)
+        or whether the new quantity is to be added to the existing quantity(False). The default value is False
+        :return:
+        """
+        product_id = str(product.id)  # converts the product ID(int) to string because Django uses JSON
+        # to serialize session data, and JSON only allows string key names
+        if product_id not in self.cart:
+            self.cart[product_id] = {'quantity': 0,
+                                     'price': str(product.price)}  # price is cast to string, same reason as product_id
+        if override_quantity:
+            self.cart[product_id]['quantity'] = quantity  # override the quantity with the given(new) quantity
+        else:
+            self.cart[product_id]['quantity'] += quantity  # add the new quantity to the existing quantity
+        self.save()
+
