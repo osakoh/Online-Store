@@ -34,7 +34,7 @@
                     {{ total_items }} item{{ total_items|pluralize }}|£{{ cart.get_total_price }}
                 </a>
             {% else %}
-                Your cart is empty.
+                Empty <i class="fas fa-shopping-cart"></i>
             {% endif %}
         {% endwith %}
     </div>
