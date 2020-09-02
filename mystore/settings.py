@@ -129,11 +129,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "mystore/../shop/static"),
-# ]
+# location of 'static' in mystore folder
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "mystore/static"),
+]
 
-# located outside the base directory to where the venv is
+# creates 'static' folder in the root dir (OnlineStore) after running collectstatic
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 # LOGIN_REDIRECT_URL = 'post_list'
