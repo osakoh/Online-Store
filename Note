@@ -45,3 +45,7 @@ when the user closes the browser, and the SESSION_COOKIE_AGE setting will not
 have any effect.
 You can use the set_expiry() method of request.session to overwrite the
 duration of the current session.
+
+-Context processors-
+Used when you want a variable to be available globally to all templates. It is a Python function that
+takes a request object as an argument and returns a dictionary that gets added to the request context.
