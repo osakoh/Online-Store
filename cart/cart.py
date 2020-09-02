@@ -59,7 +59,7 @@ class Cart(object):
         product_id = str(product.id)  # same reason as casting product.id to str in add()
 
         if product_id in self.cart:  # checks if the product_id is in the cart and removes it
-            del self.session['product_id']
+            del self.cart[product_id]
             self.save()  # updates the modified cart
 
     def __iter__(self):
