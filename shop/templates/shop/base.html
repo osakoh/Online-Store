@@ -1,24 +1,63 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <title>{% block title %}My shop{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Font Awesome -->
+    {#    <link rel="stylesheet" href="{% static 'css/all.css' %}">#}
+    <!-- Bootstrap -->
+    {#    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">#}
+    <!-- Custom -->
     <link href="{% static "css/base.css" %}" rel="stylesheet">
+    <!-- Lightbox -->
+    {#    <link rel="stylesheet" href="{% static 'css/lightbox.min.css' %}">#}
+
+    <title>{% block title %}My shop{% endblock %}</title>
+
 </head>
+
 <body>
+
 <div id="header">
     <a href="/" class="logo">My shop</a>
 </div>
+
 <div id="subheader">
     <div class="cart">
-        Your cart is empty.
+        {% with total_items=cart|length %}
+            {% if total_items > 0 %}
+                Cart: <a href="{% url 'cart:cart_detail' %}">
+            {{ total_items }} item{{ total_items|pluralize }}|£{{ cart.get_total_price }}
+            </a>
+            {% else %}
+                Your cart is empty.
+            {% endif %}
+        {% endwith %}
     </div>
 </div>
+
 <div id="content">
-    {% block content %}
-    {% endblock %}
+
+    <!-- Top Bar -->
+    {#    {% include 'partials/_topbar.html' %}#}
+
+    <!-- Navbar -->
+    {#    {% include 'partials/_navbar.html' %}#}
+
+    {% block content %}{% endblock %}
+
+    <!-- footer -->
+    {#    {% include 'partials/_footer.html' %}#}
 </div>
+
+
+{#<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>#}
+{#<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>#}
+{#<script src="{% static 'js/main.js' %} "></script>#}
+{#<script src="{% static 'js/lightbox.min.js' %}"></script>#}
 </body>
+
 </html>
