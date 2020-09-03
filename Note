@@ -49,3 +49,21 @@ duration of the current session.
 -Context processors-
 Used when you want a variable to be available globally to all templates. It is a Python function that
 takes a request object as an argument and returns a dictionary that gets added to the request context.
+
+- Celery -
+Celery is a distributed task queue that can process vast amounts of messages.
+Using Celery,
+1) create asynchronous tasks and let them be executed by workers as soon as possible,
+2) you can also schedule them to run at a specific time.
+
+In many situations,
+you might want to return a response to the user as quickly as possible and let the
+server execute some process asynchronously. This is especially relevant for 'time consuming
+processes or processes subject to failure', which might need a retry
+policy. For example, a video sharing platform allows users to upload videos but
+requires a long time to transcode uploaded videos. The site might return a response
+to users to inform them that the transcoding will start soon, and start transcoding
+the video asynchronously. Another example is sending emails to users. If your site
+sends email notifications from a view, the Simple Mail Transfer Protocol (SMTP)
+connection might fail or slow down the response. Launching asynchronous tasks
+is essential to avoid blocking the code execution.
