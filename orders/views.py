@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import OrderItem
 from .forms import OrderCreateForm
 from cart.cart import Cart
@@ -14,9 +14,9 @@ def order_create(request):
     if GET: an empty form is shown in the 'create.html' template.
     """
     cart = Cart(request)
-
+    # if POST
     if request.method == 'POST':  # user clicks send
-        form = OrderCreateForm(request.POST)  # step 1:creates a new form Order instance containing the users details
+        form = OrderCreateForm(request.POST)  # step 1:shows a form Order instance containing the users details
 
         if form.is_valid():  # if all fields are filled with correct values and are not blank
             order = form.save()  # creates an order object and saves it to the DB
@@ -28,13 +28,16 @@ def order_create(request):
                 )
             # step 3: the shopping cart's contents are cleared and the user is redirected to a success page
             cart.clear()
-            messages.success(request, 'Order created successfully')
-            return render(request, 'orders/order/created.html', {'order': order})
+            context = {'order': order}
 
-        else:
-            form = OrderCreateForm()  # show the user an empty form if the send button isn't clicked
-            context = {
-                'cart': cart,
-                'form': form
-            }
-        return render(request, 'orders/order/create.html', context)
+            messages.success(request, 'Order created successfully')
+            # return render(request, 'orders/order/created.html', context)
+            return redirect('shop:product_list')
+    # if GET
+    else:
+        form = OrderCreateForm()  # show the user an empty form if the send button isn't clicked
+    context = {
+        'cart': cart,
+        'form': form
+    }
+    return render(request, 'orders/order/create.html', context)
