@@ -16,5 +16,5 @@ class OrderCreateForm(forms.ModelForm):
     used to create new 'Order' objects; this form is handled by a view in views.py
     """
     class Meta:
-        model = Order
+        model = Order  # selects the model to build the form
         fields = ['first_name', 'last_name', 'email', 'address', 'postal_code', 'city']
