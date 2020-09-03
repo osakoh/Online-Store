@@ -4,6 +4,8 @@ from .forms import OrderCreateForm
 from cart.cart import Cart
 from django.contrib import messages
 
+from .tasks import order_created  # task import for celery
+
 
 def order_create(request):
     """
@@ -28,7 +30,9 @@ def order_create(request):
                 )
             # step 3: the shopping cart's contents are cleared and the user is redirected to a success page
             cart.clear()
-            context = {'order': order}
+            # launch asynchronous task
+            order_created.delay(order.id)
+            # context = {'order': order}
 
             messages.success(request, 'Order created successfully')
             # return render(request, 'orders/order/created.html', context)
