@@ -67,3 +67,11 @@ the video asynchronously. Another example is sending emails to users. If your si
 sends email notifications from a view, the Simple Mail Transfer Protocol (SMTP)
 connection might fail or slow down the response. Launching asynchronous tasks
 is essential to avoid blocking the code execution.
+
+Celery requires a message broker(RabbitMQ) in order to handle requests from an external source.
+A message broker translates messages to a formal messaging protocol and manage message queues
+for multiple receivers, providing reliable storage and guaranteed message delivery.
+You use a message broker to send messages to Celery workers, which process tasks as they
+receive them.
+RabbitMQ is lightweight, it supports multiple messaging protocols, and it can be used when
+scalability and high availability are required.
