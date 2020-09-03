@@ -2,6 +2,7 @@ from celery import task
 from django.core.mail import send_mail
 from .models import Order
 
+
 @task
 def order_created(order_id):
     """
@@ -21,3 +22,6 @@ def order_created(order_id):
 # pip install celery==4.2.0
 # pip install eventlet
 # celery -A mystore worker -l info -P gevent
+
+# monitor flower
+# celery -A mystore flower --loglevel=info
